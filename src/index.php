@@ -46,9 +46,9 @@
              * <h1>Input Box Original Text</h1>
              * <p>Used to store the original text of the input text area for possible later usage</p>
              **
-             * @type <b>String</b>
-             * @exp inputBoxElement
-             * @pro value
+             * <p>@type <b>String</b></p>
+             * <p>@exp inputBoxElement</p>
+             * <p>@pro value</p>
              */
             var inputBoxOriginalText;
             
@@ -56,9 +56,9 @@
              * <h1>Ouput Box Original Text</h1>
              * <p>Used to store the original text of the output text area for possible later usage</p>
              **
-             * @type <b>String</b>
-             * @exp outputBoxElement
-             * @pro value
+             * <p>@type <b>String</b></p>
+             * <p>@exp outputBoxElement</p>
+             * <p>@pro value</p>
              */
             var outputBoxOriginalText;
             
@@ -86,7 +86,7 @@
              *  This function initilizes some global variables such as input box element and 
              *  its orginal values with there proper values.</p>
              ***
-             * @returns void
+             * <p>@returns void</p>
              */
             function startProgram()
             {
@@ -103,44 +103,39 @@
                 // We expect the user to delimit each command with an enter or \n
                 var textAreaSplit = inputBoxOriginalText.split("\n");
                 
-                // Calling checkBegin tag function on the first element of the text area
+                // Calling checkBegin tag function on the first element of the 
+                // text area allowes us to get a boolean if BEGIN is present
                 if(checkBegin(textAreaSplit[0]))
                 {
+                    // Set Output Box - Output Let the user know the begin tag was detected
                     outputBoxElement.innerHTML = "<span class='goodOutput'>Begin Tag Detected, Starting Process</span>" + "<br /><br />";
+                    
+                    // Check Code runs each line of the code and runs the command
                     checkCode(textAreaSplit);
+                    
+                    // Checks to see if the last line is an END tag
                     if(checkEnd(textAreaSplit[textAreaSplit.length-1]))
                     {
+                        // Set Output Box - Output Let the user know the end tag was detected
                         outputBoxElement.innerHTML += "<br /><span class='goodOutput'>End Tag Detected, Ending Program</span><br />";
                     }
                     else
                     {
+                        // Set Output Box - Output Let the user know the end tag was not detected
                         outputBoxElement.innerHTML += "<br /><span class='badOutput'>Error: Program Terminated Without an End tag or extra spaces/charecters are present </span><br />";
                     }
                         
                 }
                 else
                 {
+                    // Set Output Box - Output Let the user know the begin tag was not detected
                     outputBoxElement.innerHTML = "<span class='badOutput'>Error: No Begin Tag Detected</span><br />";
                 }
-            }
-            
-            function checkBegin(statement)
-            {
-                var splitStatement = statement.split(" ");
-                var returnBoolean = false;
-                
-                if(splitStatement[0] === "BEGIN")
-                {
-                    returnBoolean = true;
-                }
-                
-                return returnBoolean;
             }
             
             function checkCode(statement)
             {
                 var variableArrayList  = new Array();
-                
                 
                 for(var i = 1; i < statement.length-1; i++)
                 {
@@ -246,6 +241,35 @@
                 }
             }
             
+            /**
+             * <h1>Check Begin</h1>
+             * <p>Used to check for begin tag at the start of the string line that is passed in</p>
+             **
+             * <p>@param <b>String</b> - Statement - the line to check the tag for</p>
+             * <p>@exp inputBoxElement, statement</p>
+             * <p>@returns <b>Boolean</b> - True if begin tag is present</p>
+             */
+            function checkBegin(statement)
+            {
+                var splitStatement = statement.split(" ");
+                var returnBoolean = false;
+                
+                if(splitStatement[0] === "BEGIN")
+                {
+                    returnBoolean = true;
+                }
+                
+                return returnBoolean;
+            }
+            
+            /**
+             * <h1>Check End</h1>
+             * <p>Used to check for end tag at the start of the string line that is passed in</p>
+             **
+             * <p>@param <b>String</b> - Statement - the line to check the tag for</p>
+             * <p>@exp inputBoxElement, statement</p>
+             * <p>@returns <b>Boolean</b> - True if end tag is present</p>
+             */
             function checkEnd(statement)
             {
                 var splitStatement = statement.split(" ");
@@ -259,14 +283,24 @@
                 return returnBoolean;
             }
             
-            function searchArrayList(nameKey, myArray)
+            /**
+             * <h1>Search Array List</h1>
+             *  <p>Search the arraylist for the passed in key and return its 
+             * index that its found in. array.length is returned when not found
+             * </p>
+             **
+             *  <p>@param <b>String</b> - statement - the statement to find</p>
+             *  <p>@param <b>ArrayList</b> - arrayList - the array list to search</p>
+             *  <p>@return <b>Int</b> - the index that the item was found in</p>
+             */
+            function searchArrayList(statement, arrayList)
             {
                 var index = 0;
                 var found = false;
                 
-                while(!found && index < myArray.length)
+                while(!found && index < arrayList.length)
                 {
-                    if (myArray[index].name === nameKey) 
+                    if (arrayList[index].name === statement) 
                     {
                         found = true; 
                     }
